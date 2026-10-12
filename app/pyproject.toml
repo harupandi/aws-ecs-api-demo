@@ -1,7 +1,7 @@
 [project]
 name = "app"
 version = "0.1.0"
-description = "Add your description here"
+description = "API project deployed in AWS"
 readme = "README.md"
 authors = [
     { name = "Bryan Pineda", email = "bryan.pinedag@hotmail.com" }
