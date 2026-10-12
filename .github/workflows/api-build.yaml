@@ -17,6 +17,7 @@ on:
 
 
 jobs:
+  # SECRET SCANNING
   secret-scan:
     name: Secret Scan
     runs-on: ubuntu-latest
@@ -35,7 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-
+  # SAST
   semgrep:
     name: Semgrep SAST
     runs-on: ubuntu-latest
@@ -64,3 +65,43 @@ jobs:
         uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
         with:
           sarif_file: semgrep.sarif
+  
+  # DOCKER BUILD AND TRIVY SCAN
+  build-and-scan:
+    name: Build and Scan Docker Image
+    needs:
+      - secret-scan
+      - semgrep
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t aws-ecs-api:${{ github.sha }} \
+            .
+
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 #v0.36.0
+        with:
+          image-ref: aws-ecs-api:${{ github.sha }}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+      
+      - name: Save Docker image
+        run: |
+          docker save \
+            aws-ecs-api:${{ github.sha }} \
+            -o aws-ecs-api.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #v4
+        with:
+          name: aws-ecs-api-${{ github.sha }}
+          path: aws-ecs-api.tar
+          retention-days: 1
