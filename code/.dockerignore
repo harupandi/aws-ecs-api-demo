@@ -1,0 +1,37 @@
+# Virtual environment (uv creates .venv by default)
+.venv/
+
+# Python bytecode and caches
+**/__pycache__
+**/*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build and distribution artifacts
+build/
+dist/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# VCS
+.git/
+.gitignore
+
+# Docker files themselves
+Dockerfile*
+.dockerignore
+docker-compose*.yml

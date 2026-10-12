@@ -1,11 +1,11 @@
-from flask import Blueprint, jsonify
+from fastapi import APIRouter, HTTPException
 
-bp = Blueprint("transactions", __name__, url_prefix="/transactions")
+router = APIRouter(prefix="/transactions", tags=["transactions"])
 
-@bp.get("/")
+@router.get("/")
 def list_transactions():
-    return jsonify([])
+    return []
 
-@bp.get("/<int:transaction_id>")
-def get_transaction(transaction_id):
-    return jsonify({"id": transaction_id})
+@router.get("/{transaction_id}")
+def get_transaction(transaction_id: int):
+    return {"id": transaction_id}

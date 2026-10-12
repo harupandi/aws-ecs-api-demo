@@ -1,8 +1,8 @@
-from flask import Blueprint
-from .users import bp as users_bp
-from .transactions import bp as transactions_bp
+from fastapi import APIRouter, HTTPException
+from . import transactions, users
 
-api = Blueprint("api", __name__, url_prefix="/api")
+api_router = APIRouter(prefix="/api", tags=["api"])
 
-api.register_blueprint(users_bp)
-api.register_blueprint(transactions_bp)
+api_router.include_router(users.router)
+api_router.include_router(transactions.router)
+
