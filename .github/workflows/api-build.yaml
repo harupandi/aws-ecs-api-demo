@@ -4,13 +4,15 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'code/'
+      - 'code/**'
+      - '.github/workflows/api-build.yaml'
       - '!**.md'
 
   push:
     branches: [main]
     paths:
-      - 'code/'
+      - 'code/**'
+      - '.github/workflows/api-build.yaml'
       - '!**.md'
 
 
