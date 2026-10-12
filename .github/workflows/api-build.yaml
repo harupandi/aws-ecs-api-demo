@@ -75,7 +75,7 @@ jobs:
 
     defaults:
       run:
-      working-directory: ./code
+        working-directory: ./code
 
     steps:
       - name: Checkout
