@@ -5,15 +5,13 @@ on:
     branches: [main]
     paths:
       - 'code/'
-    paths-ignore:
-      - '**.md'
+      - '!**.md'
 
   push:
     branches: [main]
     paths:
       - 'code/'
-    paths-ignore:
-      - '**.md'
+      - '!**.md'
 
 
 jobs:
