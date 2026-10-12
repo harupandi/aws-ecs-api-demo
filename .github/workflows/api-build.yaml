@@ -15,10 +15,6 @@ on:
       - '.github/workflows/api-build.yaml'
       - '!**.md'
 
-defaults:
-  run:
-    working-directory: ./code
-
 jobs:
   # SECRET SCANNING
   secret-scan:
@@ -76,6 +72,10 @@ jobs:
       - secret-scan
       - semgrep
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+      working-directory: ./code
 
     steps:
       - name: Checkout
