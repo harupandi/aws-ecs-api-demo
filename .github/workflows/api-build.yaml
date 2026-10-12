@@ -15,6 +15,9 @@ on:
       - '.github/workflows/api-build.yaml'
       - '!**.md'
 
+defaults:
+  run:
+    working-directory: ./code
 
 jobs:
   # SECRET SCANNING
@@ -82,7 +85,7 @@ jobs:
         run: |
           docker build \
             -t aws-ecs-api:${{ github.sha }} \
-            .
+            .code/Dockerfile
 
       - name: Scan Docker image
         uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 #v0.36.0
