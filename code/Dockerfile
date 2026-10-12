@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---- Builder stage ----
-FROM python:3.12-slim AS builder
+FROM python:3.14-slim AS builder
 
 # Copy uv binary from the official image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 
 # ---- Runtime stage ----
-FROM python:3.12-slim AS runtime
+FROM python:3.14-slim AS runtime
 
 # Non-root user
 RUN useradd --create-home --uid 1000 app
@@ -43,6 +43,6 @@ USER app
 
 EXPOSE 8000
 
-# Replace with your actual entrypoint
-CMD ["python", "-m", "your_package"]
-# e.g. CMD ["uvicorn", "your_package.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:create_app", "--factory", \
+     "--app-dir", "src", \
+     "--host", "0.0.0.0", "--port", "8000"]
