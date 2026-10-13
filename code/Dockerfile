@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---- Builder stage ----
-FROM python:3.14-slim AS builder
+FROM python:3.14.8-slim AS builder
 
 # Copy uv binary from the official image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 
 # ---- Runtime stage ----
-FROM python:3.14-slim AS runtime
+FROM python:3.14.8-slim AS runtime
 
 # Non-root user
 RUN useradd --create-home --uid 1000 app
